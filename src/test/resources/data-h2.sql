@@ -145,7 +145,7 @@ values (1, 2, 2, 'task_developer', '2023-06-14 08:35:10', '2023-06-14 08:55:00')
 --        (1, 'mobile', '+01234567890'),
 --        (1, 'website', 'user.com'),
 --        (2, 'github', 'adminGitHub'),
---        (2, 'tg', 'adminTg'),
+--        (2, 'tg', 'adminTg');
 --
 -- INSERT INTO PROJECT (code, title, description, type_code, parent_id)
 -- VALUES ('PR1', 'PROJECT-1', 'test project 1', 'task_tracker', NULL),
