@@ -74,25 +74,30 @@ public class User extends TimestampEntry implements HasIdAndEmail, Serializable 
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;
 
+    @Column(name = "locale")
+    @NotBlank
+    private String locale;
+
     public User(User user) {
         this(user.id, user.email, user.password, user.firstName, user.lastName, user.displayName,
-                user.startpoint, user.endpoint, user.roles);
+                user.startpoint, user.endpoint, user.roles, user.locale);
     }
 
     public User(Long id, String email, String password, String firstName, String lastName, String displayName,
                 Role... roles) {
         this(id, email, password, firstName, lastName, displayName,
-                LocalDateTime.now(), null, Arrays.asList(roles));
+                LocalDateTime.now(), null, Arrays.asList(roles), "ru");
     }
 
     public User(Long id, String email, String password, String firstName, String lastName, String displayName,
-                LocalDateTime startpoint, LocalDateTime endpoint, Collection<Role> roles) {
+                LocalDateTime startpoint, LocalDateTime endpoint, Collection<Role> roles, String locale) {
         super(id, startpoint, endpoint);
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.displayName = displayName;
+        this.locale = locale;
         setRoles(roles);
         normalize();
     }

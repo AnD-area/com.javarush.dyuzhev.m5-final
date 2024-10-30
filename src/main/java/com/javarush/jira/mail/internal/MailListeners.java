@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import java.util.Locale;
 import java.util.Map;
 
 @Component
@@ -23,12 +24,30 @@ public class MailListeners {
     public void confirmRegistration(RegistrationConfirmEvent event) {
         String confirmationUrl = appProperties.getHostUrl() + "/ui/register/confirm?token=" + event.token();
         User user = userMapper.toEntity(event.userto());
-        mailService.sendToUserAsync("email-confirmation.html", user, Map.of("confirmationUrl", confirmationUrl));
+        Locale locale = determineLocale(user);
+        mailService.sendToUserAsync("email-confirmation.html", user, Map.of("confirmationUrl", confirmationUrl), locale);
     }
 
     @EventListener
     public void resetPassword(PasswordResetEvent event) {
         String resetUrl = appProperties.getHostUrl() + "/ui/password/change?token=" + event.token();
-        mailService.sendToUserAsync("password-reset.html", event.user(), Map.of("resetUrl", resetUrl));
+        Locale locale = determineLocale(event.user());
+        mailService.sendToUserAsync("password-reset.html", event.user(), Map.of("resetUrl", resetUrl), locale);
+    }
+
+    private Locale determineLocale(User user) {
+
+        // Fixed locale
+        String userLocale = user.getLocale();
+
+        switch (userLocale) {
+            case "en":
+                return Locale.ENGLISH;
+            case "it":
+                return Locale.ITALIAN;
+            case "ru":
+            default:
+                return Locale.forLanguageTag("ru");
+        }
     }
 }
