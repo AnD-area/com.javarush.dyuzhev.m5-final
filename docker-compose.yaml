@@ -1,6 +1,8 @@
 services:
   server:
+    container_name: server
     build: .
+    restart: always
     ports:
       - '8080:8080'
     depends_on:
@@ -8,11 +10,15 @@ services:
         condition: service_healthy
     env_file:
       - .env
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
     volumes:
       - ./resources:/app/resources
 
   db:
+    container_name: db
     image: postgres:16
+    restart: always
     environment:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -29,21 +35,10 @@ services:
     env_file:
       - .env
 
-  db-test:
-    image: postgres:16
-    environment:
-      POSTGRES_USER: ${TEST_DB_USERNAME}
-      POSTGRES_PASSWORD: ${TEST_DB_PASSWORD}
-      POSTGRES_DB: jira-test
-    ports:
-      - '5433:5432'
-    volumes:
-      - ./db-test-data:/var/lib/postgresql/data
-    env_file:
-      - .env
-
   nginx:
+    container_name: nginx
     image: nginx:latest
+    restart: always
     ports:
       - '80:80'
     volumes:
@@ -57,10 +52,4 @@ volumes:
     driver_opts:
       type: none
       device: ./db-data
-      o: bind
-  db-test-data:
-    driver: local
-    driver_opts:
-      type: none
-      device: ./db-test-data
       o: bind

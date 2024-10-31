@@ -4,11 +4,9 @@
     <meta charset="UTF-8"/>
     <title th:text="#{index.title}">JiraRush: мини система отслеживания ошибок</title>
 </head>
-<!--/*@thymesVar id="authUser" type="com.javarush.jira.login.AuthUser"*/-->
 
 <th:block th:replace="~{layout/main::page(title=#{index.title},appMain=~{::appMain})}">
 
-    <!--<th:block th:replace="~{layout/main::page(title='JiraRush: mini bugtracking system',appMain=~{::appMain})}">-->
     <appMain>
         <h1 th:text="#{index.homepage}">JiraRush Home page</h1>
         <div>
@@ -21,13 +19,5 @@
                 <button class="btn btn-primary btn-lg mt-3" type="submit" th:text="#{index.logout}">Logout</button>
             </form>
         </div>
-
-
-        <!--        <h1>JiraRush Home page</h1>-->
-        <!--        <div th:if="${authUser} != null">-->
-        <!--            <form action="/ui/logout" method="post">-->
-        <!--                <button class="btn btn-primary btn-lg mt-3" type="submit">Logout</button>-->
-        <!--            </form>-->
-        <!--        </div>-->
     </appMain>
 </th:block>

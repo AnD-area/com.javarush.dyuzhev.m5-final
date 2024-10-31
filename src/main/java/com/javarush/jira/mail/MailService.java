@@ -29,7 +29,7 @@ import java.util.concurrent.*;
 @Service
 @RequiredArgsConstructor
 public class MailService {
-//    private static final Locale LOCALE_RU = Locale.forLanguageTag("ru");
+    private static final Locale LOCALE_RU = Locale.forLanguageTag("ru");
     private static final String OK = "OK";
 
     private final MailCaseRepository mailCaseRepository;
@@ -50,20 +50,20 @@ public class MailService {
         return OK.equals(result);
     }
 
-    public String sendToUserWithParams(@NonNull String template, @NonNull User user, @NonNull Map<String, Object> params, @NonNull Locale locale) {
+    public String sendToUserWithParams(@NonNull String template, @NonNull User user, @NonNull Map<String, Object> params) {
         String email = Objects.requireNonNull(user.getEmail());
         Map<String, Object> extParams = Util.mergeMap(params, Map.of("user", user));
-        return send(appConfig.isProd() ? email : appProperties.getTestMail(), user.getFirstName(), template, extParams, locale);
+        return send(appConfig.isProd() ? email : appProperties.getTestMail(), user.getFirstName(), template, extParams);
     }
 
-    public String send(String toEmail, String toName, String template, Map<String, Object> params, Locale locale) {
+    public String send(String toEmail, String toName, String template, Map<String, Object> params) {
         log.debug("Send email to {}, {} with template {}", toEmail, toName, template);
         String result = OK;
         try {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, "UTF-8");
             message.setFrom(email, "JiraRush");
-            String content = getContent(template, params, locale);
+            String content = getContent(template, params);
             message.setText(content, true);
             message.setSubject(Util.getTitle(content));  // TODO calculate title for group emailing only once
             message.setTo(new InternetAddress(toEmail, toName, "UTF-8"));
@@ -78,12 +78,12 @@ public class MailService {
         return result;
     }
 
-    private String getContent(String template, Map<String, Object> params, Locale locale) {
-        Context context = new Context(locale, params);
+    private String getContent(String template, Map<String, Object> params) {
+        Context context = new Context(LOCALE_RU, params);
         return templateEngine.process(template, context);
     }
 
-    public synchronized GroupResult sendToGroup(@NonNull String template, @NonNull Set<User> users, Map<String, Object> params, @NonNull Locale locale) {
+    public synchronized GroupResult sendToGroup(@NonNull String template, @NonNull Set<User> users, Map<String, Object> params) {
         if (users.isEmpty()) {
             return new GroupResult(0, Collections.emptyList(), null);
         }
@@ -91,7 +91,7 @@ public class MailService {
         Map<Future<String>, String> resultMap = new HashMap<>();
         users.forEach(
                 user -> {
-                    Future<String> future = completionService.submit(() -> sendToUserWithParams(template, user, params, locale));
+                    Future<String> future = completionService.submit(() -> sendToUserWithParams(template, user, params));
                     resultMap.put(future, user.getEmail());
                 }
         );
@@ -118,8 +118,8 @@ public class MailService {
     }
 
     @Async("mailExecutor")
-    public void sendToUserAsync(@NonNull String template, @NonNull User user, Map<String, Object> params, @NonNull Locale locale) {
-        sendToUserWithParams(template, user, params, locale);
+    public void sendToUserAsync(@NonNull String template, @NonNull User user, Map<String, Object> params) {
+        sendToUserWithParams(template, user, params);
     }
 
     private void cancelAll(Map<Future<String>, String> resultMap) {
