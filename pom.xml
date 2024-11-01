@@ -147,7 +147,12 @@
             <artifactId>junit-platform-launcher</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-annotations -->
+<!--        <dependency>-->
+<!--            <groupId>com.github.spotbugs</groupId>-->
+<!--            <artifactId>spotbugs-annotations</artifactId>-->
+<!--            <version>4.8.6</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>
@@ -211,11 +216,5 @@
                 </plugins>
             </build>
         </profile>
-<!--        <profile>-->
-<!--            <id>test</id>-->
-<!--            <properties>-->
-<!--                <spring.profiles.active>test</spring.profiles.active>-->
-<!--            </properties>-->
-<!--        </profile>-->
     </profiles>
 </project>

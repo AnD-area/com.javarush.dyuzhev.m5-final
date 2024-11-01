@@ -80,6 +80,7 @@ spring:
   sql:
     init:
       mode: always
+      data-locations: classpath:/data.sql
 
   mail:
     properties:
@@ -114,6 +115,7 @@ logging:
 
 server:
   #  https://springdoc.org/index.html#how-can-i-deploy-springdoc-openapi-ui-behind-a-reverse-proxy
+  port: 8080
   forward-headers-strategy: framework
   servlet:
     encoding:

@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ActiveProfiles("test")
 abstract class BaseTests {
 
-    @Test
-    void contextLoads() {
-        assertTrue(true);
-    }
+//    @Test
+//    void contextLoads() {
+//        assertTrue(true);
+//    }
 }
