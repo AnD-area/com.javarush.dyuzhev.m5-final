@@ -46,10 +46,10 @@ services:
     depends_on:
       - server
 
-volumes:
-  db-data:
-    driver: local
-    driver_opts:
-      type: none
-      device: ./db-data
-      o: bind
+#volumes:
+#  db-data:
+#    driver: local
+#    driver_opts:
+#      type: none
+#      device: ./db-data
+#      o: bind
