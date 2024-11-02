@@ -80,7 +80,7 @@ spring:
   sql:
     init:
       mode: always
-#      data-locations: classpath:/data.sql
+      data-locations: classpath:data4dev/data.sql
 
   mail:
     properties:

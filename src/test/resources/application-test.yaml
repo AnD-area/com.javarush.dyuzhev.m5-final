@@ -35,7 +35,6 @@ spring:
     database:
       replace: none
 
-
 #  mail:
 #    properties:
 #      mail:
@@ -44,8 +43,8 @@ spring:
 #            enable: true
 #          auth: true
 #    host: smtp.gmail.com
-#    username: ${MAIL_USERNAME}
-#    password: ${MAIL_PASSWORD}
+#    username: ${env.MAIL_USERNAME}
+#    password: ${env.MAIL_PASSWORD}
 #    port: 587
   mail:
     properties:
