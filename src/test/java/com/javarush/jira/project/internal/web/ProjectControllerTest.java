@@ -12,8 +12,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.javarush.jira.common.util.JsonUtil.writeValue;
-import static com.javarush.jira.login.internal.web.UserTestData.MANAGER_MAIL;
-import static com.javarush.jira.login.internal.web.UserTestData.USER_MAIL;
+import static com.javarush.jira.login.internal.web.UserTestData.*;
 import static com.javarush.jira.project.internal.web.ProjectTestData.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;

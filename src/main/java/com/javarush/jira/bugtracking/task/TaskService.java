@@ -14,7 +14,9 @@ import com.javarush.jira.common.error.NotFoundException;
 import com.javarush.jira.common.util.Util;
 import com.javarush.jira.login.AuthUser;
 import com.javarush.jira.ref.RefType;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -32,6 +34,8 @@ import static com.javarush.jira.ref.ReferenceService.getRefTo;
 public class TaskService {
     static final String CANNOT_ASSIGN = "Cannot assign as %s to task with status=%s";
     static final String CANNOT_UN_ASSIGN = "Cannot unassign as %s from task with status=%s";
+
+    private final TaskRepository taskRepository;
 
     private final Handlers.TaskExtHandler handler;
     private final Handlers.ActivityHandler activityHandler;
@@ -86,12 +90,16 @@ public class TaskService {
         }
     }
 
+    @Transactional(readOnly = true)
     public TaskToFull get(long id) {
         Task task = Util.checkExist(id, handler.getRepository().findFullById(id));
+        Hibernate.initialize(task.getTags());
+
         TaskToFull taskToFull = fullMapper.toTo(task);
         List<Activity> activities = activityHandler.getRepository().findAllByTaskIdOrderByUpdatedDesc(id);
         fillExtraFields(taskToFull, activities);
         taskToFull.setActivityTos(activityHandler.getMapper().toToList(activities));
+        taskToFull.setTags(task.getTags());
         return taskToFull;
     }
 
@@ -140,4 +148,14 @@ public class TaskService {
             throw new DataConflictException(String.format(assign ? CANNOT_ASSIGN : CANNOT_UN_ASSIGN, userType, task.getStatusCode()));
         }
     }
+
+    @Transactional
+    public void addTag(Long taskId, String tag) {
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new EntityNotFoundException("Task not found with id " + taskId));
+        task.getTags().add(tag.replace("\"", ""));
+        taskRepository.save(task);
+    }
+
+
 }

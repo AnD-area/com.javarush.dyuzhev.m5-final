@@ -14,11 +14,11 @@ delete from USERS;
 alter table USERS alter column ID restart with 1;
 delete from USER_BELONG;
 
-insert into USERS (EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, DISPLAY_NAME)
-values ('user@gmail.com', '{noop}password', 'userFirstName', 'userLastName', 'userDisplayName'),
-       ('admin@gmail.com', '{noop}admin', 'adminFirstName', 'adminLastName', 'adminDisplayName'),
-       ('guest@gmail.com', '{noop}guest', 'guestFirstName', 'guestLastName', 'guestDisplayName'),
-       ('manager@gmail.com', '{noop}manager', 'managerFirstName', 'managerLastName', 'managerDisplayName');
+insert into USERS (EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, DISPLAY_NAME, STARTPOINT)
+values ('user@gmail.com', '{noop}password', 'userFirstName', 'userLastName', 'userDisplayName', CURRENT_TIMESTAMP),
+       ('admin@gmail.com', '{noop}admin', 'adminFirstName', 'adminLastName', 'adminDisplayName', CURRENT_TIMESTAMP),
+       ('guest@gmail.com', '{noop}guest', 'guestFirstName', 'guestLastName', 'guestDisplayName', CURRENT_TIMESTAMP),
+       ('manager@gmail.com', '{noop}manager', 'managerFirstName', 'managerLastName', 'managerDisplayName', CURRENT_TIMESTAMP);
 
 -- 0 DEV
 -- 1 ADMIN

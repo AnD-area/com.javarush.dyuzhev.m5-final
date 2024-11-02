@@ -78,7 +78,6 @@ public class AppConfig {
         return dataSource;
     }
 
-
     @Autowired
     void configureAndStoreObjectMapper(ObjectMapper objectMapper) {
         objectMapper.registerModule(new Hibernate5JakartaModule());

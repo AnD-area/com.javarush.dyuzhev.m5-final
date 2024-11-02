@@ -24,6 +24,8 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class TaskControllerTest extends AbstractControllerTest {
     private static final String TASKS_REST_URL_SLASH = REST_URL + "/";
@@ -589,5 +591,19 @@ class TaskControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.detail", is(String
                         .format("Not found assignment with userType=%s for task {%d} for user {%d}", TASK_DEVELOPER, TASK1_ID, ADMIN_ID))));
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void addTag() throws Exception {
+        String tag = "new-tag";
+
+        perform(post(TASKS_REST_URL_SLASH + TASK1_ID + "/tags")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(tag))
+                .andExpect(status().isNoContent());
+
+        Task updatedTask = taskRepository.findById(TASK1_ID).orElseThrow();
+        assertTrue(updatedTask.getTags().contains(tag));
     }
 }
