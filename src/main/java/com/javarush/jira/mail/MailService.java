@@ -43,7 +43,7 @@ public class MailService {
     @Qualifier("mailExecutor")
     private final Executor mailExecutor;
 
-    @Value("${spring.mail.username}")
+    @Value("${MAIL_USERNAME}")
     private String email;
 
     public static boolean isOk(String result) {

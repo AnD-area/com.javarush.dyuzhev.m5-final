@@ -1,10 +1,10 @@
-app:
-  host-url: http://localhost:8080
-  test-mail: jira4jr@gmail.com
-  templates-update-cache: 5s
-  mail-sending-props:
-    core-pool-size: 8
-    max-pool-size: 100
+#app:
+#  host-url: http://localhost:8080
+#  test-mail: jira4jr@gmail.com
+#  templates-update-cache: 5s
+#  mail-sending-props:
+#    core-pool-size: 8
+#    max-pool-size: 100
 
 logging:
   level:
@@ -14,17 +14,20 @@ spring:
   config:
     activate:
       on-profile: test
-  cache:
-    type: none
+    import: "classpath:application-secrets.yaml"
+  init:
+    mode: always
+
+#  cache:
+#    type: none
   datasource:
-    url: jdbc:h2:mem:h2-test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;NON_KEYWORDS=VALUE
+    url: jdbc:h2:mem:h2-test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE;NON_KEYWORDS=VALUE
     driverClassName: org.h2.Driver
-    username: sa
-    password:
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-    database-platform: org.hibernate.dialect.H2Dialect
+
+#  jpa:
+#    hibernate:
+#      ddl-auto: create-drop
+#    database-platform: org.hibernate.dialect.H2Dialect
   liquibase:
     change-log: classpath:db/changelog-h2.sql
   h2:
@@ -39,14 +42,28 @@ spring:
     database:
       replace: none
 
-  mail:
-    properties:
-      mail:
-        smtp:
-          starttls:
-            enable: true
-          auth: true
-    host: smtp.gmail.com
-    username: jira4jr@gmail.com
-    password: zdfzsrqvgimldzyj
-    port: 587
+MAIL_USERNAME: jira4jr@gmail.com
+MAIL_PASSWORD: zdfzsrqvgimldzyj
+#  mail:
+#    host: localhost
+#    port: 25
+#    username: test
+#    password: test
+#    properties:
+#      mail:
+#        smtp:
+#          auth: false
+#          starttls:
+#            enable: false
+
+#  mail:
+#    properties:
+#      mail:
+#        smtp:
+#          starttls:
+#            enable: true
+#          auth: true
+#    host: smtp.gmail.com
+#    username: jira4jr@gmail.com
+#    password: zdfzsrqvgimldzyj
+#    port: 587

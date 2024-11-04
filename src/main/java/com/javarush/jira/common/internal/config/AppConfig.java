@@ -8,6 +8,7 @@ import com.javarush.jira.common.util.JsonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,12 +30,18 @@ import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE;
 @Configuration
 @Slf4j
 @EnableCaching
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @EnableScheduling
 public class AppConfig {
 
     private final AppProperties appProperties;
     private final Environment env;
+
+    @Autowired
+    public AppConfig(AppProperties appProperties, Environment env) {
+        this.appProperties = appProperties;
+        this.env = env;
+    }
 
     @Bean("mailExecutor")
     Executor getAsyncExecutor() {
@@ -56,26 +63,24 @@ public class AppConfig {
     }
 
 
-    @Bean
+    @Bean(name = "dataSource")
     @Profile("prod")
     public DataSource prodDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl(env.getProperty("spring.datasource.url"));
-        dataSource.setUsername(env.getProperty("spring.datasource.username"));
-        dataSource.setPassword(env.getProperty("spring.datasource.password"));
-        return dataSource;
+        return DataSourceBuilder.create()
+                .driverClassName("org.postgresql.Driver")
+                .url(env.getProperty("DB_URL"))
+                .username(env.getProperty("DB_USERNAME"))
+                .password(env.getProperty("DB_PASSWORD"))
+                .build();
     }
 
-    @Bean
+    @Bean(name = "dataSource")
     @Profile("test")
     public DataSource testDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2:mem:h2-test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;NON_KEYWORDS=VALUE");
-        dataSource.setUsername("sa");
-        dataSource.setPassword("");
-        return dataSource;
+        return DataSourceBuilder.create()
+                .driverClassName("org.h2.Driver")
+                .url("jdbc:h2:mem:h2-test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;NON_KEYWORDS=VALUE")
+                .build();
     }
 
     @Autowired

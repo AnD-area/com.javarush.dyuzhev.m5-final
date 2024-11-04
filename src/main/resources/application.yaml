@@ -82,6 +82,9 @@ spring:
       mode: always
       data-locations: classpath:data4dev/data.sql
 
+  config:
+    import: "classpath:application-secrets.yaml"
+
   mail:
     properties:
       mail:

@@ -83,10 +83,6 @@ values (1, 2, 2, 'task_developer', '2023-06-14 08:35:10', '2023-06-14 08:55:00')
 
 
 
-
-
-
-
 -- ---------  users ----------------------
 -- delete
 -- from USER_ROLE;
@@ -137,7 +133,7 @@ values (1, 2, 2, 'task_developer', '2023-06-14 08:35:10', '2023-06-14 08:55:00')
 -- values (1, null, null, 49),
 --        (2, null, null, 14);
 --
--- insert into CONTACT (ID, CODE, "VALUE")
+-- insert into CONTACT (ID, CODE, CONTACT_VALUE)
 -- values (1, 'skype', 'userSkype'),
 --        (1, 'mobile', '+01234567890'),
 --        (1, 'website', 'user.com'),

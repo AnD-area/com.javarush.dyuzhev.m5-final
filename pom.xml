@@ -74,6 +74,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
+<!--            <exclusions>-->
+<!--            <exclusion>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-starter-test</artifactId>-->
+<!--            </exclusion>-->
+<!--            </exclusions>-->
         </dependency>
 
         <!--Thymeleaf-->
@@ -141,11 +147,11 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>io.github.cdimascio</groupId>-->
-<!--            <artifactId>dotenv-java</artifactId>-->
-<!--            <version>3.0.2</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>java-dotenv</artifactId>
+            <version>5.2.2</version>
+        </dependency>
 
         <dependency>
             <groupId>org.junit.platform</groupId>
