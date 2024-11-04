@@ -44,17 +44,6 @@ spring:
 
 MAIL_USERNAME: jira4jr@gmail.com
 MAIL_PASSWORD: zdfzsrqvgimldzyj
-#  mail:
-#    host: localhost
-#    port: 25
-#    username: test
-#    password: test
-#    properties:
-#      mail:
-#        smtp:
-#          auth: false
-#          starttls:
-#            enable: false
 
 #  mail:
 #    properties:
