@@ -1,15 +1,3 @@
-#app:
-#  host-url: http://localhost:8080
-#  test-mail: jira4jr@gmail.com
-#  templates-update-cache: 5s
-#  mail-sending-props:
-#    core-pool-size: 8
-#    max-pool-size: 100
-
-logging:
-  level:
-    liquibase: DEBUG
-
 spring:
   config:
     activate:
@@ -17,17 +5,15 @@ spring:
     import: "classpath:application-secrets.yaml"
   init:
     mode: always
-
-#  cache:
-#    type: none
+  dotenv:
+    enabled: true
+    path: "./.env"
+    system-properties: true
+  cache:
+    type: none
   datasource:
     url: jdbc:h2:mem:h2-test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE;NON_KEYWORDS=VALUE
     driverClassName: org.h2.Driver
-
-#  jpa:
-#    hibernate:
-#      ddl-auto: create-drop
-#    database-platform: org.hibernate.dialect.H2Dialect
   liquibase:
     change-log: classpath:db/changelog-h2.sql
   h2:
@@ -45,14 +31,6 @@ spring:
 MAIL_USERNAME: jira4jr@gmail.com
 MAIL_PASSWORD: zdfzsrqvgimldzyj
 
-#  mail:
-#    properties:
-#      mail:
-#        smtp:
-#          starttls:
-#            enable: true
-#          auth: true
-#    host: smtp.gmail.com
-#    username: jira4jr@gmail.com
-#    password: zdfzsrqvgimldzyj
-#    port: 587
+#//TODO разобраться, почему не работает
+#MAIL_USERNAME: ${MAIL_USERNAME}
+#MAIL_PASSWORD: ${MAIL_PASSWORD}

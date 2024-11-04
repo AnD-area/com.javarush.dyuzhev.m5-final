@@ -79,7 +79,7 @@ public class AppConfig {
     public DataSource testDataSource() {
         return DataSourceBuilder.create()
                 .driverClassName("org.h2.Driver")
-                .url("jdbc:h2:mem:h2-test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;NON_KEYWORDS=VALUE")
+                .url("jdbc:h2:mem:h2-test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE;NON_KEYWORDS=VALUE")
                 .build();
     }
 
