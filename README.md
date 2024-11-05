@@ -43,7 +43,9 @@ mvn test (с профилем test) собирается корректно;
 7) Добавить новый функционал: добавления тегов к задаче (REST API + реализация на сервисе);
 Проверить можно через swagger (task controller - POST /api/tasks/{taskId}/tags + )
 GET /api/tasks/{id}; Например ввести id 1, Request body ="new-tag";
-8) -;
+8) Добавить подсчет времени сколько задача находилась в работе и тестировании. 
+Написать 2 метода на уровне сервиса, которые параметром принимают задачу и возвращают затраченное время;
++-; Методы в swagger /api/tasks/task/{taskId}/time-in-working и /api/tasks/task/{taskId}/time-in-testing
 9) Написать Dockerfile для основного сервера;
 10) Написать docker-compose файл для запуска контейнера сервера вместе с БД и nginx;
 Должно корректно запускаться через docker compose up --build;
