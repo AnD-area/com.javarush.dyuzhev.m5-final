@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableConfigurationProperties(AppProperties.class)
@@ -14,8 +15,4 @@ public class JiraRushApplication {
     public static void main(String[] args) {
         SpringApplication.run(JiraRushApplication.class, args);
     }
-//public static void main(String[] args) {
-//    System.out.println("MAIL_USERNAME: " + System.getenv("MAIL_USERNAME"));
-//    System.out.println("MAIL_PASSWORD: " + System.getenv("MAIL_PASSWORD"));
-//}
 }

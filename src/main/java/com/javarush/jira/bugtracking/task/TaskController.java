@@ -15,11 +15,13 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,6 +36,7 @@ public class TaskController {
 
     public static final String REST_URL = "/api/tasks";
 
+    @Autowired
     private final TaskService taskService;
     private final ActivityService activityService;
     private final Handlers.TaskHandler handler;
@@ -161,5 +164,15 @@ public class TaskController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addTag(@PathVariable Long taskId, @RequestBody String tag) {
         taskService.addTag(taskId, tag);
+    }
+
+    @GetMapping("/task/{taskId}/time-in-working")
+    public Duration getTimeInProgressing(@PathVariable Long taskId) {
+        return taskService.getTimeInProgressing(taskId);
+    }
+
+    @GetMapping("/task/{taskId}/time-in-testing")
+    public Duration getTimeInTesting(@PathVariable Long taskId) {
+        return taskService.getTimeInTesting(taskId);
     }
 }

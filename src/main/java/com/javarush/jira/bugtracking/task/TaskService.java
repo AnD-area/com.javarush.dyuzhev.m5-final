@@ -21,8 +21,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
@@ -36,6 +38,7 @@ public class TaskService {
     static final String CANNOT_UN_ASSIGN = "Cannot unassign as %s from task with status=%s";
 
     private final TaskRepository taskRepository;
+    private final ActivityRepository activityRepository;
 
     private final Handlers.TaskExtHandler handler;
     private final Handlers.ActivityHandler activityHandler;
@@ -157,5 +160,29 @@ public class TaskService {
         taskRepository.save(task);
     }
 
+    @Transactional(readOnly = true)
+    public Duration getTimeInProgressing(Long taskId) {
+        List<Activity> inProgressActivities = activityRepository.findFirstByTaskIdAndStatusCodeOrderByUpdatedAsc(taskId, "in_progress");
+        List<Activity> readyForReviewActivities = activityRepository.findFirstByTaskIdAndStatusCodeOrderByUpdatedAsc(taskId, "ready_for_review");
 
-}
+        if (inProgressActivities.isEmpty() || readyForReviewActivities.isEmpty()) {
+            throw new NotFoundException("Required activities not found for task " + taskId);
+        }
+            LocalDateTime start = inProgressActivities.get(0).getUpdated();
+            LocalDateTime end = readyForReviewActivities.get(0).getUpdated();
+            return Duration.between(start, end);
+        }
+
+    @Transactional(readOnly = true)
+    public Duration getTimeInTesting(Long taskId) {
+        List<Activity> readyForReviewActivities = activityRepository.findFirstByTaskIdAndStatusCodeOrderByUpdatedAsc(taskId, "ready_for_review");
+        List<Activity> doneActivities = activityRepository.findFirstByTaskIdAndStatusCodeOrderByUpdatedAsc(taskId, "done");
+
+        if (readyForReviewActivities.isEmpty() || doneActivities.isEmpty()) {
+            throw new NotFoundException("Required activities not found for task " + taskId);
+        }
+            LocalDateTime start = readyForReviewActivities.get(0).getUpdated();
+            LocalDateTime end = doneActivities.get(0).getUpdated();
+            return Duration.between(start, end);
+        }
+    }

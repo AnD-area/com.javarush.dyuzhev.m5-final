@@ -312,6 +312,32 @@ values ('Add role manager and filters in security', 'task', 'done', 1, 1, 1,
         now() + random() * interval '5 minutes' + random() * interval '20 seconds'),
        ('Subproject backlog subtask', 'task', 'in_progress', 4, null, 88,
         now() + random() * interval '5 minutes' + random() * interval '20 seconds');
+
+--changeset kmpk:populate_task
+insert into TASK (TITLE, TYPE_CODE, STATUS_CODE, PROJECT_ID, SPRINT_ID, STARTPOINT)
+values
+    ('Задача 1', 'task', 'in_progress', 1, 1, '2023-10-01 10:00:00'),
+    ('Задача 2', 'task', 'in_progress', 1, 1, '2023-10-01 10:00:00'),
+    ('Задача 3', 'task', 'in_progress', 1, 1, '2023-10-01 10:00:00');
+
+--changeset AnD:insert_data_into_activity
+insert into ACTIVITY (AUTHOR_ID, TASK_ID, UPDATED, STATUS_CODE)
+values
+    -- для задачи 1
+    (1, 1, '2023-10-01 10:00:00', 'in_progress'),
+    (1, 1, '2023-10-05 15:00:00', 'ready_for_review'),
+    (1, 1, '2023-10-10 18:00:00', 'done'),
+
+    -- для задачи 2
+    (1, 2, '2023-10-01 10:00:00', 'in_progress'),
+    (1, 2, '2023-10-05 15:00:00', 'ready_for_review'),
+    (1, 2, '2023-10-10 18:00:00', 'done'),
+
+    -- для задачи 3
+    (1, 3, '2023-10-01 10:00:00', 'in_progress'),
+    (1, 3, '2023-10-05 15:00:00', 'ready_for_review'),
+    (1, 3, '2023-10-10 18:00:00', 'done');
+
 alter
     sequence TASK_ID_SEQ restart with 1000;
 
